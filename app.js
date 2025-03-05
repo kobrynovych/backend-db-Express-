@@ -10,7 +10,7 @@ import { authenticated } from './authentication/middlewares/authenticated.middle
 import { PUBLIC_PORT, SESSION_SECRET_KEY } from './config/constants.js';
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
-
+// import MongoStore from 'connect-mongo';
 
 const PORT = PUBLIC_PORT;
 
@@ -22,11 +22,18 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+// const sessionStore = MongoStore({
+//     mongoUrl: 'mongodb://localhost/your-database',
+//     collectionName: 'sessions',
+//     ttl: 60 * 60,
+// });
+
 app.use(session({
     secret: SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },   // https === true
+    // store: sessionStore,
 })); 
 
 app.use('/media', express.static('public'));
