@@ -1,9 +1,11 @@
 import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
-import { NotUniqueLoginError } from '../errors/models/not-unique-login-error.model.js';
+// import { NotUniqueLoginError } from '../errors/models/not-unique-login-error.model.js';
 import { AuthError } from '../errors/models/auth-error.model.js';
-import * as usersService from '../users/users.service.js';
-import { WEB_TOKEN_SECRET_KEY } from '../../config.js';
+import * as usersService from '../service/users.service.js';
+// import { WEB_TOKEN_SECRET_KEY } from '../config/constants.js';
+
+const WEB_TOKEN_SECRET_KEY = 'k41Mvn3hsi45';
 
 const EXPIRES_IN = '1d';
 
@@ -17,7 +19,8 @@ export const registerNewUser = async (username, password) => {
     const possibleUser = await usersService.getUserByLogin(username);
 
     if (possibleUser) {
-        throw new NotUniqueLoginError();
+        // throw new NotUniqueLoginError();
+        throw new Error(`NotUniqueLoginError`);
     }
 
     const passwordHash = createPasswordHash(password);

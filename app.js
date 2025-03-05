@@ -13,15 +13,16 @@
 ////////////
 
 import express from 'express';
-import './db.js';
-import * as usersController from './src/users/users.controller.js';
-import * as authenticationController from './src/authentication/authentication.controller.js';
-import { errorLogger } from './src/errors/middlewares/error-logger.middleware.js';
-import { standardErrorResponser } from './src/errors/middlewares/standard-error-responser.middleware.js';
-import { hasRole } from './src/authorization/middlewares/has-role.middleware.js';
-import { authenticated } from './src/authentication/middlewares/authenticated.middleware.js';
-import { addCurrentUserIdToParams } from './src/authentication/middlewares/add-current-user-id-to-params.middleware.js';
-import { PUBLIC_PORT } from './config.js';
+// import './db.js';
+// import * as usersController from './src/users/users.controller.js';
+import * as authenticationController from './authentication/authentication.controller.js';
+// import { errorLogger } from './src/errors/middlewares/error-logger.middleware.js';
+// import { standardErrorResponser } from './src/errors/middlewares/standard-error-responser.middleware.js';
+import { hasRole } from './authorization/middlewares/has-role.middleware.js';
+import { authenticated } from './authentication/middlewares/authenticated.middleware.js';
+// import { addCurrentUserIdToParams } from './authentication/middlewares/add-current-user-id-to-params.middleware.js';
+import { PUBLIC_PORT } from './config/constants.js';
+
 
 const PORT = PUBLIC_PORT;
 
@@ -34,30 +35,30 @@ app.use(express.json());
 app.use('/media', express.static('public'));
 
 app.use((req, res, next) => {
-  console.log(req.method);
-  next();
+    console.log(req.method);
+    next();
 });
 
 app.get('/', (req, res) => {
-    res.render('pages/index', {
-      courseName: 'Node.js Basic',
-      lessonName: 'Express.js Basic'
+    res.render('home', {
+        courseName: 'Node.js Basic',
+        lessonName: 'Express.js Basic'
     });
 });
 
 app.post('/signin', authenticationController.signIn);
 app.post('/signup', authenticationController.signUp);
 
-app.get('/users/me', authenticated, hasRole('limited_user'), addCurrentUserIdToParams, usersController.findById);
-app.get('/users', authenticated, hasRole('admin'), usersController.findAll);
-app.get('/users/:id', authenticated, hasRole('admin'), usersController.findById);
+// app.get('/users/me', authenticated, hasRole('limited_user'), addCurrentUserIdToParams, usersController.findById);
+// app.get('/users', authenticated, hasRole('admin'), usersController.findAll);
+// app.get('/users/:id', authenticated, hasRole('admin'), usersController.findById);
 
-app.post('/users', authenticated, hasRole('admin'), usersController.create);
-app.put('/users/:id', authenticated, hasRole('admin'), usersController.update);
-app.delete('/users/:id', authenticated, hasRole('admin'), usersController.remove);
+// app.post('/users', authenticated, hasRole('admin'), usersController.create);
+// app.put('/users/:id', authenticated, hasRole('admin'), usersController.update);
+// app.delete('/users/:id', authenticated, hasRole('admin'), usersController.remove);
 
-app.use(errorLogger);
-app.use(standardErrorResponser);
+// app.use(errorLogger);
+// app.use(standardErrorResponser);
 
 app.listen(PORT, () => {
     console.log('Server successfuly started on port ' + PORT);
