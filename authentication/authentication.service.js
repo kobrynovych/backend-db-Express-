@@ -41,7 +41,7 @@ export const authenticateUser = async (username, password) => {
         throw new AuthError();
     }
   
-    const isPasswordCorrect = compareHashWithPassword(password, user.password_hash);
+    const isPasswordCorrect = compareHashWithPassword(password, user.passwordHash);
     if (!isPasswordCorrect) {
         throw new AuthError();
     }
@@ -50,4 +50,3 @@ export const authenticateUser = async (username, password) => {
         id: user.id,
     });
 };
-// ...

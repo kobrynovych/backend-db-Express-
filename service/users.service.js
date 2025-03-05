@@ -12,7 +12,6 @@ export const create = async ({login, role, passwordHash}) => {
         login: login, 
         role: role, 
         passwordHash: passwordHash, 
-        password_hash: passwordHash, 
     }
 
     USERS.push(newUser)

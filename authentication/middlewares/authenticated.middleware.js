@@ -8,8 +8,7 @@ export const authenticated = (req, res, next) => {
     try {
         const { token } = req.body;
 
-        // jsonwebtoken.verify(token, WEB_TOKEN_SECRET_KEY );
-        jsonwebtoken.verify(token, 'k41Mvn3hsi45' );
+        jsonwebtoken.verify(token, WEB_TOKEN_SECRET_KEY);  // kim ?
         return next();
     } catch (error) {
         // next(new NotAuthenticatedError());
