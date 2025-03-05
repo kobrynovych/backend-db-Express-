@@ -11,7 +11,9 @@ export const hasRole = (requiredRole) => {
 
     return async (req, res, next) => {
         try {
-            const { token } = req.body;
+            // const { token } = req.body;
+            const token = req.cookies.token;
+
             const decoded = jsonwebtoken.verify(token, WEB_TOKEN_SECRET_KEY);
             const userRole = await getRoleByUserId(decoded.id);
             const userPermissionLevel = rolePermissions[userRole] || 0;

@@ -6,7 +6,11 @@ export const signIn = async (req, res, next) => {
 
         const token = await authenticationService.authenticateUser(login, password);
 
-        return res.json({ token });
+        res.cookie('token', token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+        // res.cookie('token', token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true, secure: true });  // https === true
+
+        // return res.json({ token });  // not send token
+        return res.json({});
     } catch (error) {
         return next(error);
     }
