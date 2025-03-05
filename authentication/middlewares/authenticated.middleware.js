@@ -7,7 +7,8 @@ const WEB_TOKEN_SECRET_KEY = 'k41Mvn3hsi45';
 export const authenticated = (req, res, next) => {
     try {
         // const { token } = req.body;
-        const token = req.cookies.token;
+        // const token = req.cookies.token;
+        const token = req.session.token;
 
         jsonwebtoken.verify(token, WEB_TOKEN_SECRET_KEY);  // kim ?
         return next();

@@ -19,7 +19,12 @@ export const create = async ({login, role, passwordHash}) => {
     return newUser
 }
 
-export const getRoleByUserId = async (decodedId) => {
-    const user = USERS.find(user => user.id === decodedId)
-    return user.role
+// export const getRoleByUserId = async (decodedId) => {
+//     const user = USERS.find(user => user.id === decodedId)
+//     return user.role
+// }
+
+export const getRoleByUserLogin = async (login) => {
+    let user = USERS.find(user => user.login === login)
+    return user?.role || null
 }
