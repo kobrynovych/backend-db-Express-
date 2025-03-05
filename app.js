@@ -49,6 +49,20 @@ app.get('/', (req, res) => {
 app.post('/signin', authenticationController.signIn);
 app.post('/signup', authenticationController.signUp);
 
+app.get('/users/me', authenticated, hasRole('limited_user'), (req, res) => {
+    res.render('home', {
+        courseName: 'Node.js Basic',
+        lessonName: 'Express.js Basic'
+    });
+});
+
+app.get('/users/me2', authenticated, hasRole('admin'), (req, res) => {
+    res.render('home', {
+        courseName: 'Node.js Basic',
+        lessonName: 'Express.js Basic'
+    });
+});
+
 // app.get('/users/me', authenticated, hasRole('limited_user'), addCurrentUserIdToParams, usersController.findById);
 // app.get('/users', authenticated, hasRole('admin'), usersController.findAll);
 // app.get('/users/:id', authenticated, hasRole('admin'), usersController.findById);
