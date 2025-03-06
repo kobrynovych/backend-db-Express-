@@ -1,4 +1,6 @@
 import express from 'express';
+import path from 'node:path'
+import { styleText } from 'node:util'
 // import './db.js';
 // import * as usersController from './src/users/users.controller.js';
 import * as authenticationController from './authentication/authentication.controller.js';
@@ -7,18 +9,19 @@ import * as authenticationController from './authentication/authentication.contr
 import { hasRole } from './authorization/middlewares/has-role.middleware.js';
 import { authenticated } from './authentication/middlewares/authenticated.middleware.js';
 // import { addCurrentUserIdToParams } from './authentication/middlewares/add-current-user-id-to-params.middleware.js';
-import { PUBLIC_PORT, SESSION_SECRET_KEY } from './config/constants.js';
+import { PUBLIC_HOSTNAME, PUBLIC_PORT, SESSION_SECRET_KEY } from './config/constants.js';
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 // import MongoStore from 'connect-mongo';
 
-const PORT = PUBLIC_PORT;
+
 
 const app = express();
 
 app.set('view engine', 'ejs');
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));  // parse HTML-FORM using POST Content-Type: application/x-www-form-urlencoded
 
 app.use(cookieParser());
 
@@ -83,6 +86,11 @@ app.get('/users/me2', authenticated, hasRole('admin'), (req, res) => {
 // app.use(errorLogger);
 // app.use(standardErrorResponser);
 
-app.listen(PORT, () => {
-    console.log('Server successfuly started on port ' + PORT);
+
+app.listen(PUBLIC_PORT, PUBLIC_HOSTNAME, () => {
+    console.log(
+        styleText(['red'], 'Server ') +
+        'running at ' +
+        styleText(['green', 'bold'], `http://${PUBLIC_HOSTNAME}:${PUBLIC_PORT}/ `) 
+    );
 });
