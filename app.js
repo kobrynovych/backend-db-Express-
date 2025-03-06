@@ -94,9 +94,16 @@ app.use(express.urlencoded({ extended: false }));  // parse HTML-FORM using POST
 
 app.use(session({
     secret: SESSION_SECRET_KEY,
+    // name: 'sessionId',           // default name is used: 'connect.sid'
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },   // https === true
+    cookie: { 
+        // secure: true,                        // https === true
+        // httpOnly: true,                      // https === true
+        // // domain: 'example.com',
+        // // path: 'foo/bar',
+        // expires: new Date(Date.now() + 24 * 60 * 60 * 1000)     // 1 day
+    },  
     // store: sessionStore,
 })); 
 
