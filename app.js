@@ -10,7 +10,7 @@ import { hasRole } from './authorization/middlewares/has-role.middleware.js';
 import { authenticated } from './authentication/middlewares/authenticated.middleware.js';
 // import { addCurrentUserIdToParams } from './authentication/middlewares/add-current-user-id-to-params.middleware.js';
 import { PUBLIC_HOSTNAME, PUBLIC_PORT, SESSION_SECRET_KEY } from './config/constants.js';
-import cookieParser from 'cookie-parser'
+// import cookieParser from 'cookie-parser'
 import session from 'express-session'
 // import MongoStore from 'connect-mongo';
 
@@ -23,7 +23,7 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));  // parse HTML-FORM using POST Content-Type: application/x-www-form-urlencoded
 
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // const sessionStore = MongoStore({
 //     mongoUrl: 'mongodb://localhost/your-database',
