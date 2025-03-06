@@ -19,6 +19,7 @@ import winston from 'winston'
 import pino from 'pino'
 import pinoHttp from 'pino-http'
 
+import createError from 'http-errors'
 
 const app = express();
 
@@ -148,6 +149,21 @@ app.get('/users/edit', authenticated, hasRole('admin'), (req, res) => {
 
 // app.use(errorLogger);
 // app.use(standardErrorResponser);
+
+
+
+
+
+// app.use(function (req, res, next) {
+//     if (!req.user) return next(createError(401, 'Please login to view this page.'))
+//     next()
+// })
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    next(createError(404, 'Page Not Found'));
+});
+
 
 // // error handler
 // app.use(function(err, req, res, next) {
