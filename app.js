@@ -28,48 +28,48 @@ app.set('view engine', 'ejs');
 // morgan
 app.use(logger('dev'));     // 'dev', 'combined', 'common', 'short', 'tiny'
 
-// winston 
-const logger2 = winston.createLogger({
-    level: 'info', // info, error, warn, debug
-    format: winston.format.json(), // JSON
-    transports: [
-        new winston.transports.Console(), // Outputting logs to the console
-        new winston.transports.File({ filename: 'combined.log' }), // Writing logs to the combined.log file
-    ],
-});
-// Middleware for query logging
-app.use((req, res, next) => {
-    const start = Date.now();
+// // winston 
+// const logger2 = winston.createLogger({
+//     level: 'info', // info, error, warn, debug
+//     format: winston.format.json(), // JSON
+//     transports: [
+//         new winston.transports.Console(), // Outputting logs to the console
+//         new winston.transports.File({ filename: 'combined.log' }), // Writing logs to the combined.log file
+//     ],
+// });
+// // Middleware for query logging
+// app.use((req, res, next) => {
+//     const start = Date.now();
 
-    res.on('finish', () => {
-        const duration = Date.now() - start;
+//     res.on('finish', () => {
+//         const duration = Date.now() - start;
 
-        logger2.info({
-            message: 'HTTP Request',
-            method: req.method,
-            url: req.url,
-            status: res.statusCode,
-            duration: duration,
-        });
-    });
+//         logger2.info({
+//             message: 'HTTP Request',
+//             method: req.method,
+//             url: req.url,
+//             status: res.statusCode,
+//             duration: duration,
+//         });
+//     });
 
-    next();
-});
-// logger2.info('Це інформаційне повідомлення');
-// logger2.error('Це повідомлення про помилку');
+//     next();
+// });
+// // logger2.info('Це інформаційне повідомлення');
+// // logger2.error('Це повідомлення про помилку');
 
-// pino
-const logger3 = pino({
-    transport: {
-        target: 'pino-pretty', // Output logs in a nice format
-    },
-});
+// // pino
+// const logger3 = pino({
+//     transport: {
+//         target: 'pino-pretty', // Output logs in a nice format
+//     },
+// });
 
-// Middleware for query logging
-const pinoHttpLogger = pinoHttp({
-    logger: logger3,
-});
-app.use(pinoHttpLogger);
+// // Middleware for query logging
+// const pinoHttpLogger = pinoHttp({
+//     logger: logger3,
+// });
+// app.use(pinoHttpLogger);
 
 
 
@@ -149,6 +149,16 @@ app.get('/users/edit', authenticated, hasRole('admin'), (req, res) => {
 // app.use(errorLogger);
 // app.use(standardErrorResponser);
 
+// // error handler
+// app.use(function(err, req, res, next) {
+//     // set locals, only providing error in development
+//     res.locals.message = err.message;
+//     res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+//     // render the error page
+//     res.status(err.status || 500);
+//     res.render('error');
+// });
 
 app.listen(PUBLIC_PORT, PUBLIC_HOSTNAME, () => {
     console.log(
