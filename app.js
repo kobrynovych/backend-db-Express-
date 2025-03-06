@@ -25,6 +25,8 @@ import helmet from "helmet";
 
 import { RateLimiterMemory } from 'rate-limiter-flexible'
 
+import compression from 'compression'
+
 
 
 
@@ -32,6 +34,9 @@ const app = express();
 
 
 
+
+// compress all responses
+app.use(compression())
 
 
 // Speed ​​limiter settings
