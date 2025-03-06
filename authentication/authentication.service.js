@@ -15,7 +15,7 @@ const createPasswordHash = (password) => bcrypt.hashSync(password, bcrypt.genSal
 
 const compareHashWithPassword = (password, passwordHash) => bcrypt.compareSync(password, passwordHash);
 
-export const registerNewUser = async (username, password) => {
+export const registerNewUser = async (username, password, role) => {
     const possibleUser = await usersService.getUserByLogin(username);
 
     if (possibleUser) {
@@ -27,7 +27,7 @@ export const registerNewUser = async (username, password) => {
 
     const newUser = await usersService.create({
         login: username,
-        role: 'limited_user',
+        role: role || 'limited_user',
         passwordHash: passwordHash
     });
 

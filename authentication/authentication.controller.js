@@ -22,11 +22,20 @@ export const signIn = async (req, res, next) => {
 
 export const signUp = async (req, res, next) => {
     try {
-        const { login, password } = req.body;
+        const { login, password, role } = req.body;
 
-        const newUser = await authenticationService.registerNewUser(login, password);
+        const newUser = await authenticationService.registerNewUser(login, password, role);
 
-        return res.json(newUser);
+
+        // kim signIn
+        const token = await authenticationService.authenticateUser(login, password);
+        req.session.token = token;
+        req.session.role = newUser.role;
+
+
+        // return res.json(newUser);
+        // return res.redirect('/');
+        return res.redirect('/users');
     } catch (error) {
         return next(error);
     }

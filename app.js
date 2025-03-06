@@ -61,15 +61,19 @@ app.get('/', (req, res) => {
 app.post('/signin', authenticationController.signIn);
 app.post('/signup', authenticationController.signUp);
 
-app.get('/users/me', authenticated, hasRole('limited_user'), (req, res) => {
-    res.render('home', {
+app.get('/signup', (req, res) => {
+    res.render('signUp');
+});
+
+app.get('/users', authenticated, hasRole('limited_user'), (req, res) => {
+    res.render('users', {
         courseName: 'Node.js Basic',
         lessonName: 'Express.js Basic'
     });
 });
 
-app.get('/users/me2', authenticated, hasRole('admin'), (req, res) => {
-    res.render('home', {
+app.get('/users/edit', authenticated, hasRole('admin'), (req, res) => {
+    res.render('users-edit', {
         courseName: 'Node.js Basic',
         lessonName: 'Express.js Basic'
     });
