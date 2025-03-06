@@ -1,0 +1,9 @@
+{"duration":19,"level":"info","message":"HTTP Request","method":"GET","status":304,"url":"/"}
+{"duration":6,"level":"info","message":"HTTP Request","method":"GET","status":304,"url":"/"}
+{"duration":4,"level":"info","message":"HTTP Request","method":"GET","status":304,"url":"/signin"}
+{"duration":24,"level":"info","message":"HTTP Request","method":"GET","status":200,"url":"/signup"}
+{"duration":8,"level":"info","message":"HTTP Request","method":"GET","status":500,"url":"/users"}
+{"duration":9,"level":"info","message":"HTTP Request","method":"GET","status":304,"url":"/"}
+{"duration":22,"level":"info","message":"HTTP Request","method":"GET","status":304,"url":"/"}
+{"level":"info","message":"Це інформаційне повідомлення"}
+{"level":"error","message":"Це повідомлення про помилку"}

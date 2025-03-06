@@ -13,8 +13,8 @@ import { PUBLIC_HOSTNAME, PUBLIC_PORT, SESSION_SECRET_KEY } from './config/const
 // import cookieParser from 'cookie-parser'
 import session from 'express-session'
 // import MongoStore from 'connect-mongo';
-import logger from 'morgan'
-
+import loggerMorgan from 'morgan'
+import winston from 'winston'
 
 
 
@@ -23,7 +23,43 @@ const app = express();
 // view engine setup
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));     // 'dev', 'combined', 'common', 'short', 'tiny'
+// morgan
+app.use(loggerMorgan('dev'));     // 'dev', 'combined', 'common', 'short', 'tiny'
+
+// winston 
+const logger = winston.createLogger({
+    level: 'info', // info, error, warn, debug
+    format: winston.format.json(), // JSON
+    transports: [
+        new winston.transports.Console(), // Outputting logs to the console
+        new winston.transports.File({ filename: 'combined.log' }), // Writing logs to the combined.log file
+    ],
+});
+// Middleware for query logging
+app.use((req, res, next) => {
+    const start = Date.now();
+
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+
+        logger.info({
+            message: 'HTTP Request',
+            method: req.method,
+            url: req.url,
+            status: res.statusCode,
+            duration: duration,
+        });
+    });
+
+    next();
+});
+
+// logger.info('Це інформаційне повідомлення');
+// logger.error('Це повідомлення про помилку');
+
+
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));  // parse HTML-FORM using POST Content-Type: application/x-www-form-urlencoded
 
