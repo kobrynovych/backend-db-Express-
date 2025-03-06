@@ -23,9 +23,39 @@ import createError from 'http-errors'
 
 import helmet from "helmet";
 
+import { RateLimiterMemory } from 'rate-limiter-flexible'
+
+
 
 
 const app = express();
+
+
+
+
+
+// Speed ​​limiter settings
+const rateLimiter = new RateLimiterMemory({
+    points: 3, // Maximum number of requests
+    duration: 1, // Duration in seconds (1 second)
+});
+
+// Speed ​​Limiting Middleware
+const rateLimiterMiddleware = async (req, res, next) => {
+    try {
+        await rateLimiter.consume(req.ip); // We use the client's IP address as a key
+        next();
+    } catch (rejRes) {
+        res.status(429).send('Too many requests, please try again later.');
+    }
+};
+
+// Using middleware to limit speed on all routes
+app.use(rateLimiterMiddleware);
+
+
+
+
 
 // Use Helmet!
 app.use(helmet());
