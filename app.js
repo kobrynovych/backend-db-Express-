@@ -33,7 +33,19 @@ import errorhandler from 'errorhandler'
 
 import notifier from 'node-notifier'
 
+import mongoose from 'mongoose'
+
+
+
+
+
+
+
 const app = express();
+
+
+
+
 
 
 
@@ -231,6 +243,59 @@ app.get('/users/edit/:userId', authenticated, hasRole('admin'), (req, res) => {
 
 // app.use(errorLogger);
 // app.use(standardErrorResponser);
+
+
+
+
+
+
+
+// 
+// Підключення до MongoDB
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('🔗 Підключено до MongoDB'))
+    .catch(err => console.error('❌ Помилка підключення до MongoDB:', err));
+
+// Створення схеми для задач
+const taskSchema = new mongoose.Schema({
+    title: String,
+    completed: Boolean
+});
+
+// Модель для роботи з колекцією "tasks"
+const Task = mongoose.model('Task', taskSchema);
+
+// 📌 Отримати всі задачі
+app.get('/tasks', async (req, res) => {
+    const tasks = await Task.find();
+    res.json(tasks);
+});
+
+// 📌 Додати нову задачу
+app.post('/tasks', async (req, res) => {
+    const { title, completed } = req.body;
+    const newTask = new Task({ title, completed: completed || false });
+    await newTask.save();
+    res.status(201).json(newTask);
+});
+
+// 📌 Оновити задачу за ID
+app.put('/tasks/:id', async (req, res) => {    
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedTask) return res.status(404).json({ error: 'Задачу не знайдено' });
+    res.json(updatedTask);
+});
+
+// 📌 Видалити задачу за ID
+app.delete('/tasks/:id', async (req, res) => {
+    const deletedTask = await Task.findByIdAndDelete(req.params.id);
+    if (!deletedTask) return res.status(404).json({ error: 'Задачу не знайдено' });
+    res.json({ message: '✅ Задача видалена' });
+});
+// ./
+
+
+
 
 
 
