@@ -1,0 +1,13 @@
+<nav>
+    <% if (userRole) { %>
+        <p>user logged in with role: <%= userRole %></p> 
+    <% } %>
+
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/signin">Sign In</a></li>
+        <li><a href="/signup">Sign Up</a></li>
+        <li><a href="/users">Users (limited_user, user or admin)</a></li>
+        <li><a href="/users/edit">Edit User (admin)</a></li>
+    </ul>
+</nav>

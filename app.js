@@ -61,11 +61,15 @@ app.post('/signin', authenticationController.signIn);
 app.post('/signup', authenticationController.signUp);
 
 app.get('/signup', (req, res) => {
-    res.render('signUp');
+    res.render('signUp', {
+        userRole: req.session.role,
+    });
 });
 
 app.get('/signin', (req, res) => {
-    res.render('signin');
+    res.render('signin', {
+        userRole: req.session.role,
+    });
 });
 
 app.get('/users', authenticated, hasRole('limited_user'), (req, res) => {
