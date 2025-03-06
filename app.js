@@ -13,13 +13,17 @@ import { PUBLIC_HOSTNAME, PUBLIC_PORT, SESSION_SECRET_KEY } from './config/const
 // import cookieParser from 'cookie-parser'
 import session from 'express-session'
 // import MongoStore from 'connect-mongo';
+import logger from 'morgan'
+
 
 
 
 const app = express();
 
+// view engine setup
 app.set('view engine', 'ejs');
 
+app.use(logger('dev'));     // 'dev', 'combined', 'common', 'short', 'tiny'
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));  // parse HTML-FORM using POST Content-Type: application/x-www-form-urlencoded
 
