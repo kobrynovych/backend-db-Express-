@@ -41,3 +41,15 @@ export const signUp = async (req, res, next) => {
         return next(error);
     }
 };
+
+export const logOut = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('err logOut:', err);
+            return res.status(500).send('err logOut');
+        }
+
+        // res.redirect('/login');
+        return res.redirect('/'); 
+    });
+};

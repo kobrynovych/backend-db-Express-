@@ -59,6 +59,7 @@ app.get('/', (req, res) => {
 
 app.post('/signin', authenticationController.signIn);
 app.post('/signup', authenticationController.signUp);
+app.get('/logout', authenticationController.logOut);
 
 app.get('/signup', (req, res) => {
     res.render('signUp', {
