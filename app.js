@@ -21,7 +21,14 @@ import pinoHttp from 'pino-http'
 
 import createError from 'http-errors'
 
+import helmet from "helmet";
+
+
+
 const app = express();
+
+// Use Helmet!
+app.use(helmet());
 
 // view engine setup
 app.set('view engine', 'ejs');
@@ -139,6 +146,14 @@ app.get('/users/edit', authenticated, hasRole('admin'), (req, res) => {
     });
 });
 
+app.get('/users/edit/:userId', authenticated, hasRole('admin'), (req, res) => {
+    // console.log(req.params.userId);
+
+    res.render('users-edit', {
+        userRole: req.session.role,
+    });
+})
+
 // app.get('/users/me', authenticated, hasRole('limited_user'), addCurrentUserIdToParams, usersController.findById);
 // app.get('/users', authenticated, hasRole('admin'), usersController.findAll);
 // app.get('/users/:id', authenticated, hasRole('admin'), usersController.findById);
@@ -161,7 +176,7 @@ app.get('/users/edit', authenticated, hasRole('admin'), (req, res) => {
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    next(createError(404, 'Page Not Found'));
+    next(createError(404, `Sorry can't find that!`));
 });
 
 
