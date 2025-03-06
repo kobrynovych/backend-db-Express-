@@ -27,6 +27,8 @@ import { RateLimiterMemory } from 'rate-limiter-flexible'
 
 import compression from 'compression'
 
+import cors from 'cors'
+
 
 
 
@@ -35,8 +37,12 @@ const app = express();
 
 
 
-// compress all responses
+// Compress all responses
 app.use(compression())
+
+// Enable All CORS Requests
+app.use(cors())
+
 
 
 // Speed ​​limiter settings
