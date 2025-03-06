@@ -53,8 +53,7 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
     res.render('home', {
-        courseName: 'Node.js Basic',
-        lessonName: 'Express.js Basic'
+        userRole: req.session.role,
     });
 });
 
@@ -65,17 +64,19 @@ app.get('/signup', (req, res) => {
     res.render('signUp');
 });
 
+app.get('/signin', (req, res) => {
+    res.render('signin');
+});
+
 app.get('/users', authenticated, hasRole('limited_user'), (req, res) => {
     res.render('users', {
-        courseName: 'Node.js Basic',
-        lessonName: 'Express.js Basic'
+        userRole: req.session.role,
     });
 });
 
 app.get('/users/edit', authenticated, hasRole('admin'), (req, res) => {
     res.render('users-edit', {
-        courseName: 'Node.js Basic',
-        lessonName: 'Express.js Basic'
+        userRole: req.session.role,
     });
 });
 

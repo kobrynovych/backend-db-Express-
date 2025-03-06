@@ -14,7 +14,8 @@ export const signIn = async (req, res, next) => {
         req.session.role = await getRoleByUserLogin(login);
 
         // return res.json({ token });  // not send token
-        return res.json({});
+        // return res.json({});
+        return res.redirect('/users');
     } catch (error) {
         return next(error);
     }
