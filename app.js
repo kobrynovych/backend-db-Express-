@@ -13,9 +13,11 @@ import { PUBLIC_HOSTNAME, PUBLIC_PORT, SESSION_SECRET_KEY } from './config/const
 // import cookieParser from 'cookie-parser'
 import session from 'express-session'
 // import MongoStore from 'connect-mongo';
-import loggerMorgan from 'morgan'
-import winston from 'winston'
 
+import logger from 'morgan'
+import winston from 'winston'
+import pino from 'pino'
+import pinoHttp from 'pino-http'
 
 
 const app = express();
@@ -24,10 +26,10 @@ const app = express();
 app.set('view engine', 'ejs');
 
 // morgan
-app.use(loggerMorgan('dev'));     // 'dev', 'combined', 'common', 'short', 'tiny'
+app.use(logger('dev'));     // 'dev', 'combined', 'common', 'short', 'tiny'
 
 // winston 
-const logger = winston.createLogger({
+const logger2 = winston.createLogger({
     level: 'info', // info, error, warn, debug
     format: winston.format.json(), // JSON
     transports: [
@@ -42,7 +44,7 @@ app.use((req, res, next) => {
     res.on('finish', () => {
         const duration = Date.now() - start;
 
-        logger.info({
+        logger2.info({
             message: 'HTTP Request',
             method: req.method,
             url: req.url,
@@ -53,10 +55,21 @@ app.use((req, res, next) => {
 
     next();
 });
+// logger2.info('Це інформаційне повідомлення');
+// logger2.error('Це повідомлення про помилку');
 
-// logger.info('Це інформаційне повідомлення');
-// logger.error('Це повідомлення про помилку');
+// pino
+const logger3 = pino({
+    transport: {
+        target: 'pino-pretty', // Output logs in a nice format
+    },
+});
 
+// Middleware for query logging
+const pinoHttpLogger = pinoHttp({
+    logger: logger3,
+});
+app.use(pinoHttpLogger);
 
 
 
