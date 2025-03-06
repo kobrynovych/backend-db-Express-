@@ -29,7 +29,7 @@ import compression from 'compression'
 
 import cors from 'cors'
 
-
+import errorhandler from 'errorhandler'
 
 
 const app = express();
@@ -154,6 +154,13 @@ app.use((req, res, next) => {
     console.log(req.method);
     next();
 });
+
+// assumes NODE_ENV is set by the user
+if (process.env.NODE_ENV === 'development') {
+    // only use in development
+    app.use(errorhandler())
+}
+
 
 // test
 // app.get('/', (req, res) => {
