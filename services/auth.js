@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import { create, getUserByLogin } from "./users.js";
-import { AuthError } from '../errors/auth-error.js';
+import { AuthError } from '../errors/AuthError.js';
 // import { WEB_TOKEN_SECRET_KEY } from '../config/constants.js';
 const WEB_TOKEN_SECRET_KEY = 'k41Mvn3hsi45';
 const EXPIRES_IN = '1d';

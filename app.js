@@ -14,6 +14,7 @@ import { rateLimiterMiddleware } from './middlewares/rateLimiter.js';
 import { loggerMorgan } from './middlewares/loggerMorgan.js';
 import { loggerWinston } from './middlewares/loggerWinston.js';
 import { loggerPino } from './middlewares/loggerPino.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 import { errorNotification } from './middlewares/errorNotification.js';
 import './database.js';
 
@@ -75,6 +76,9 @@ app.use('/media', express.static('public'));
 // });
 
 app.use("/", router);
+
+// Middleware for error handling
+app.use(errorHandler);
 
 if (process.env.NODE_ENV === 'development') {   // assumes NODE_ENV is set by the user
     app.use(errorNotification);  // only use in development

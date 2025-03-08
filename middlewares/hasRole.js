@@ -1,6 +1,6 @@
 // import jsonwebtoken from 'jsonwebtoken';
 // import { getRoleByUserId } from '../../service/users.service.js';
-import { NotAuthorizedError } from '../errors/not-authorized-error.js';
+import { NotAuthorizedError } from '../errors/NotAuthorizedError.js';
 import { rolePermissions } from '../services/auth.js';
 // import { WEB_TOKEN_SECRET_KEY } from '../../config/constants.js';
 
