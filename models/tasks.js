@@ -7,19 +7,23 @@ const taskSchema = new mongoose.Schema({
 
 const Task = mongoose.model('Task', taskSchema);
 
-export const getTasks = (req, res) => {
+export const getTasks = () => {
     return Task.find();
 };
 
-export const addTask = async (title, completed) => {
+export const addTask = (title, completed) => {
     const newTask = new Task({ title, completed: completed || false });
-    return await newTask.save();
+    return newTask.save();
 };
 
-export const editTask = async (itemId, body) => {
-    return await Task.findByIdAndUpdate(itemId, body, { new: true });
+export const getOneTask = (_id) => {
+    return Task.findById(_id);
 };
 
-export const removeTask = async (itemId) => {
-    return await Task.findByIdAndDelete(itemId);
+export const editTask = (itemId, body) => {
+    return Task.findByIdAndUpdate(itemId, body, { new: true });
+};
+
+export const removeTask = (itemId) => {
+    return Task.findByIdAndDelete(itemId);
 };
