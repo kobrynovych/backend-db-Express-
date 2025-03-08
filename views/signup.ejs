@@ -11,13 +11,21 @@
     <%- include('components/navbar') %>
 
     <form method="POST" action="/auth/signup">
-        <input type="text" name="login" placeholder="login" />
+        <input type="text" name="firstName" placeholder="First Name" />
         <br>
-        <input type="password" name="password" placeholder="password" />
+        <input type="text" name="lastName" placeholder="Last Name" />
+        <br>
+        <input type="email" name="email" placeholder="Email" />
+        <br>
+        <input type="password" name="password" placeholder="Password" />
         <br>
         <label>role: limited_user, user or admin</label>
         <br>
         <input type="text" name="role" placeholder="role" />
+        <br>
+        <input type="text" name="dateOfBirth" placeholder="Date Of Birth" />
+        <br>
+        <input type="text" name="profilePicture" placeholder="Profile Picture" />
         <br>
         <button type="submit">signup</button>
     </form>

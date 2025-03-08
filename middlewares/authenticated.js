@@ -1,8 +1,4 @@
-import jsonwebtoken from 'jsonwebtoken';
-// import { NotAuthenticatedError } from '../../errors/models/not-authenticated-error.model.js';
-// import { WEB_TOKEN_SECRET_KEY } from '../../config/constants';
-
-const WEB_TOKEN_SECRET_KEY = 'k41Mvn3hsi45';
+import { verifyAuthToken } from '../services/auth.js';
 
 export const authenticated = (req, res, next) => {
     try {
@@ -10,7 +6,7 @@ export const authenticated = (req, res, next) => {
         // const token = req.cookies.token;
         const token = req.session.token;
 
-        jsonwebtoken.verify(token, WEB_TOKEN_SECRET_KEY);  // kim ?
+        verifyAuthToken(token);
         return next();
     } catch (error) {
         // next(new NotAuthenticatedError());

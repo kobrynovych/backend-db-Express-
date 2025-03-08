@@ -1,5 +1,4 @@
 import { authenticateUser, registerNewUser } from "../services/auth.js";
-import { getRoleByUserLogin } from "../services/users.js";
 
 export const signin = (req, res) => {
     res.render('signin', {
@@ -9,18 +8,16 @@ export const signin = (req, res) => {
 
 export const signinForm = async (req, res, next) => {
     try {
-        const { login, password } = req.body;
+        const { email, password } = req.body;
 
-        const token = await authenticateUser(login, password);
+        const { token, role } = await authenticateUser(email, password);
 
         // res.cookie('token', token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
         // // res.cookie('token', token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true, secure: true });  // https === true
 
         req.session.token = token;
-        req.session.role = await getRoleByUserLogin(login);
+        req.session.role = role;
 
-        // return res.json({ token });  // not send token
-        // return res.json({});
         return res.redirect('/users');
     } catch (error) {
         return next(error);
@@ -35,34 +32,27 @@ export const signup = (req, res) => {
 
 export const signupForm = async (req, res, next) => {
     try {
-        const { login, password, role } = req.body;
+        const { firstName, lastName, email, password, role, dateOfBirth, profilePicture } = req.body;
 
-        const newUser = await registerNewUser(login, password, role);
+        const { token, role: userRole } = await registerNewUser({ firstName, lastName, email, password, role, dateOfBirth, profilePicture });
 
-
-        // kim signIn
-        const token = await authenticateUser(login, password);
         req.session.token = token;
-        req.session.role = newUser.role;
+        req.session.role = userRole;
 
-
-        // return res.json(newUser);
-        // return res.redirect('/');
         return res.redirect('/users');
     } catch (error) {
         return next(error);
     }
 };
 
-export const logOut = (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.error('err logOut: ', err);
-
-            return res.status(500).send('err logOut');
+export const logOut = (req, res, next) => {
+    req.session.destroy((error) => {
+        if (error) {
+            console.error('Error during logout:', error);
+            // return res.status(500).send('err logOut');
+            return next(error);
         }
 
-        // res.redirect('/login');
         return res.redirect('/'); 
     });
 };

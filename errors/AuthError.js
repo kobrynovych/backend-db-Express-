@@ -1,4 +1,4 @@
-const ERROR_MESSAGE = 'Incorrect login or password';
+const ERROR_MESSAGE = 'Incorrect email or password';
 
 export class AuthError extends Error {
     constructor() {
