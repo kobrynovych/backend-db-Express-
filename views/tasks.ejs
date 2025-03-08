@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tasks</title>
+</head>
+<body>    
+    <h1>Tasks</h1>
+
+    <%- include('components/navbar') %>
+
+    <br>
+
+    <% if (tasks && tasks.length > 0) { %>
+        <ul>
+            <% tasks.forEach((task, index) => { %>
+                <li>
+                    <%= index + 1 %>.
+                    <br>
+                    _id: <%= task._id %>.
+                    <br>
+                    title: <%= task.title %>
+                    <br>
+                    completed: <%= task.completed %>
+                    <br>
+                    createdAt: <%= task.createdAt %>
+                    <br>
+                    updatedAt: <%= task.updatedAt %>
+                    <hr>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
+</body>
+</html>
