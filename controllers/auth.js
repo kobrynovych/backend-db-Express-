@@ -1,11 +1,17 @@
-import { getRoleByUserLogin } from '../service/users.service.js';
-import * as authenticationService from './authentication.service.js';
+import { authenticateUser, registerNewUser } from "../services/auth.js";
+import { getRoleByUserLogin } from "../services/users.js";
 
-export const signIn = async (req, res, next) => {
+export const signin = (req, res) => {
+    res.render('signin', {
+        userRole: req.session.role,
+    });
+};
+
+export const signinForm = async (req, res, next) => {
     try {
         const { login, password } = req.body;
 
-        const token = await authenticationService.authenticateUser(login, password);
+        const token = await authenticateUser(login, password);
 
         // res.cookie('token', token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
         // // res.cookie('token', token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true, secure: true });  // https === true
@@ -21,15 +27,21 @@ export const signIn = async (req, res, next) => {
     }
 };
 
-export const signUp = async (req, res, next) => {
+export const signup = (req, res) => {
+    res.render('signUp', {
+        userRole: req.session.role,
+    });
+};
+
+export const signupForm = async (req, res, next) => {
     try {
         const { login, password, role } = req.body;
 
-        const newUser = await authenticationService.registerNewUser(login, password, role);
+        const newUser = await registerNewUser(login, password, role);
 
 
         // kim signIn
-        const token = await authenticationService.authenticateUser(login, password);
+        const token = await authenticateUser(login, password);
         req.session.token = token;
         req.session.role = newUser.role;
 
@@ -45,7 +57,8 @@ export const signUp = async (req, res, next) => {
 export const logOut = (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            console.error('err logOut:', err);
+            console.error('err logOut: ', err);
+
             return res.status(500).send('err logOut');
         }
 

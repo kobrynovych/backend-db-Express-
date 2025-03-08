@@ -1,5 +1,6 @@
 const USERS = []
 
+
 export const getUserByLogin = async (username) => {
     const user = USERS.find(user => user?.login === username)
 

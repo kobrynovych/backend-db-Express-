@@ -3,11 +3,10 @@ import path from 'node:path'
 import { styleText } from 'node:util'
 // import './db.js';
 // import * as usersController from './src/users/users.controller.js';
-import * as authenticationController from './authentication/authentication.controller.js';
 // import { errorLogger } from './src/errors/middlewares/error-logger.middleware.js';
 // import { standardErrorResponser } from './src/errors/middlewares/standard-error-responser.middleware.js';
-import { hasRole } from './authorization/middlewares/has-role.middleware.js';
-import { authenticated } from './authentication/middlewares/authenticated.middleware.js';
+import { hasRole } from './middlewares/hasRole.js';
+import { authenticated } from './middlewares/authenticated.js';
 // import { addCurrentUserIdToParams } from './authentication/middlewares/add-current-user-id-to-params.middleware.js';
 import { PUBLIC_HOSTNAME, PUBLIC_PORT, SESSION_SECRET_KEY } from './config/constants.js';
 // import cookieParser from 'cookie-parser'
@@ -35,6 +34,7 @@ import notifier from 'node-notifier'
 
 import mongoose from 'mongoose'
 
+import router from './routes/index.js';
 
 
 
@@ -197,21 +197,8 @@ app.get('/', (req, res) => {
     });
 });
 
-app.post('/signin', authenticationController.signIn);
-app.post('/signup', authenticationController.signUp);
-app.get('/logout', authenticationController.logOut);
 
-app.get('/signup', (req, res) => {
-    res.render('signUp', {
-        userRole: req.session.role,
-    });
-});
 
-app.get('/signin', (req, res) => {
-    res.render('signin', {
-        userRole: req.session.role,
-    });
-});
 
 app.get('/users', authenticated, hasRole('limited_user'), (req, res) => {
     res.render('users', {
@@ -260,7 +247,7 @@ mongoose.connect(process.env.MONGO_URI)
 const taskSchema = new mongoose.Schema({
     title: String,
     completed: Boolean
-});
+}, { timestamps: true });
 
 // Модель для роботи з колекцією "tasks"
 const Task = mongoose.model('Task', taskSchema);
@@ -297,6 +284,7 @@ app.delete('/tasks/:id', async (req, res) => {
 
 
 
+app.use("/", router);
 
 
 

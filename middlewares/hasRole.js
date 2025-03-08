@@ -1,7 +1,7 @@
 // import jsonwebtoken from 'jsonwebtoken';
 // import { getRoleByUserId } from '../../service/users.service.js';
-import { NotAuthorizedError } from '../../errors/models/not-authorized-error.model.js';
-import { rolePermissions } from '../authorization.service.js';
+import { NotAuthorizedError } from '../errors/not-authorized-error.js';
+import { rolePermissions } from '../services/auth.js';
 // import { WEB_TOKEN_SECRET_KEY } from '../../config/constants.js';
 
 // const WEB_TOKEN_SECRET_KEY = 'k41Mvn3hsi45';
