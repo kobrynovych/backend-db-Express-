@@ -7,6 +7,7 @@ import createError from 'http-errors'
 import helmet from "helmet";
 import compression from 'compression'
 import cors from 'cors'
+import methodOverride from 'method-override';
 import router from './routes/index.js';
 import { PUBLIC_HOSTNAME, PUBLIC_PORT, SESSION_SECRET_KEY } from './config/constants.js';
 import { rateLimiterMiddleware } from './middlewares/rateLimiter.js';
@@ -41,6 +42,7 @@ app.use(loggerMorgan);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));  // parse HTML-FORM using POST Content-Type: application/x-www-form-urlencoded
+app.use(methodOverride('_method'));
 
 // app.use(cookieParser());
 

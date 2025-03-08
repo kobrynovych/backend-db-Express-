@@ -17,7 +17,7 @@ export const createTask = async (req, res) => {
 };
 
 export const getTask = (req, res) => {
-    return res.json({});
+    res.json({});
 };
 
 export const updateTask = async (req, res) => {
@@ -37,5 +37,6 @@ export const deleteTask = async (req, res) => {
         return res.status(404).json({ error: 'Task not found' });
     } 
     
-    res.json({ message: 'Task deleted' });
+    // res.json({ message: 'Task deleted' });
+    res.redirect('/tasks');
 };
