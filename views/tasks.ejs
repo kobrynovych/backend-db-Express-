@@ -24,9 +24,9 @@
 
     <hr>
 
-    <% if (tasks && tasks.length > 0) { %>
+    <% if (data && data.length > 0) { %>
         <ul>
-            <% tasks.forEach((task, index) => { %>
+            <% data.forEach((task, index) => { %>
                 <li>
                     <%= index + 1 %>.
                     <br>
@@ -52,5 +52,9 @@
             <% }) %>
         </ul>
     <% } %>
+
+    <hr>
+    
+    <%- include('components/pagination') %>
 </body>
 </html>

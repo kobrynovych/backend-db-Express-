@@ -1,18 +1,31 @@
-import { getTasks, addTask, getOneTask, editTask, removeTask, getUserTasks } from "../models/tasks.js";
+import { getTasks, addTask, getOneTask, editTask, removeTask, getUserTasks, getTotalNumberOfTasks } from "../models/tasks.js";
 import { CustomError } from "../errors/CustomError.js";
 import { verifyAuthToken } from "../services/auth.js";
 
 export const getAllTasks = async (req, res, next) => {
     try {
-        const tasks = await getTasks();
+        const page = parseInt(req.query.page) || 1;  // Page (default 1)
+        const limit = parseInt(req.query.limit) || 10; // Number of entries per page (default 10)
+        const skip = (page - 1) * limit; // Skip N records
+
+        const total = await getTotalNumberOfTasks();
+        const tasks = await getTasks(limit, skip);
+
+        const data = {
+            total, 
+            page,
+            pages: Math.ceil(total / limit),    // How many pages in total
+            limit, 
+            data: tasks, 
+        };
 
         if (req.headers.accept && req.headers.accept.includes('text/html')) {        
             res.render('tasks', {
                 userRole: req.session.role,
-                tasks: tasks,
+                ...data,
             });
         } else {
-            res.json(tasks);
+            res.json(data);
         }
     } catch (error) {
         next(error); 

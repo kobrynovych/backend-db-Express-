@@ -37,13 +37,18 @@ const Task = mongoose.model('Task', taskSchema);
 // // Call the function to delete the schema
 // deleteSchema();
 
-export const getTasks = () => {
-    // return Task.find();
-    return Task.find().populate('author', 'firstName lastName'); // We are pulling up user data.
+export const getTasks = async (limit, skip) => {
+    return Task.find()
+        .populate('author', 'firstName lastName')   // We are pulling up user data.
+        .sort({ createdAt: -1 })    // Sorts by creation date (createdAt), starting with the newest
+        .limit(limit)  // Choose 10 items
+        .skip(skip)    // Skip 0 (for the first page)
 };
 
 export const getUserTasks = (userId) => {
-    return Task.find({ author: userId }).populate('author', 'firstName lastName'); // We are pulling up user data.
+    return Task.find({ author: userId })
+        .populate('author', 'firstName lastName')   // We are pulling up user data.
+        .sort({ createdAt: -1 })    // Sorts by creation date (createdAt), starting with the newest
 };
 
 export const addTask = (title, completed, author) => {
@@ -57,6 +62,10 @@ export const getOneTask = (_id) => {
 
 export const editTask = (itemId, body) => {
     return Task.findByIdAndUpdate(itemId, body, { new: true });
+};
+
+export const getTotalNumberOfTasks = async (limit, skip) => {
+    return await Task.countDocuments();
 };
 
 export const removeTask = (itemId) => {

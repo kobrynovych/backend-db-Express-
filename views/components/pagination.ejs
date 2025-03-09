@@ -1,0 +1,53 @@
+<ul class="pagination">
+    <li>
+        <a href="?page=<%= page - 1 %>&limit=<%= limit %>" 
+           class="<%= page === 1 ? 'disabled' : '' %>">
+            « Previous
+        </a>
+    </li>
+
+    <% for (let i = 1; i <= pages; i++) { %>
+        <li>
+            <a href="?page=<%= i %>&limit=<%= limit %>" 
+               class="<%= page === i ? 'active' : '' %>">
+                <%= i %>
+            </a>
+        </li>
+    <% } %>
+
+    <li>
+        <a href="?page=<%= page + 1 %>&limit=<%= limit %>" 
+           class="<%= page === pages ? 'disabled' : '' %>">
+           Next »
+        </a>
+    </li>
+</ul>
+
+<style>
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .pagination li {
+        margin: 0 5px;
+    }
+    .pagination a {
+        text-decoration: none;
+        padding: 8px 12px;
+        border: 1px solid #007bff;
+        color: #007bff;
+        border-radius: 5px;
+    }
+    .pagination a.active {
+        background-color: #007bff;
+        color: white;
+    }
+    .pagination a.disabled {
+        pointer-events: none;
+        color: gray;
+        border-color: gray;
+    }
+</style>

@@ -59,7 +59,10 @@ userSchema.methods.comparePassword = async function (candidatePassword) {   // w
 const User = mongoose.model('User', userSchema);
 
 export const getUsers = () => {
-    return User.find();
+    return User.find()
+        .sort({ createdAt: -1 })    // Sorts by creation date (createdAt), starting with the newest
+        // .select("_id firstName lastName email password role dateOfBirth profilePicture")
+        .select("_id firstName lastName email role dateOfBirth profilePicture")
 }
 
 export const createNewUser = (newUser) => {
