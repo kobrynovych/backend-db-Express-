@@ -73,3 +73,15 @@ export const getUserByEmail = (email) => {
 export const getUserAndPasswordByEmail = (email) => {
     return User.findOne({ email }).select('+password');
 };
+
+export const getOneUser = (_id) => {
+    return User.findById(_id);
+};
+
+export const editUser = (itemId, body) => {
+    return User.findByIdAndUpdate(itemId, body, { new: true });
+};
+
+export const removeUser = (itemId) => {
+    return User.findByIdAndDelete(itemId);
+};

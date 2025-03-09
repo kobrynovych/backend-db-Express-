@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>users</title>
+</head>
+<body>    
+    <h1>User edit</h1>
+
+    <%- include('components/navbar') %>
+
+    <br>
+
+    <form action="/users/<%= user._id %>?_method=PUT" method="POST">
+        <input type="text" name="firstName" placeholder="First Name" value="<%= user.firstName %>" />
+        <br>
+        <input type="text" name="lastName" placeholder="Last Name" value="<%= user.lastName %>" />
+        <br>
+        <input type="email" name="email" placeholder="Email" value="<%= user.email %>" />
+        <br>
+        <input type="password" name="password" placeholder="Password" value="<%= user.password %>" />
+        <br>
+        <label>role: limited_user, user or admin</label>
+        <br>
+        <input type="text" name="role" placeholder="role" value="<%= user.role %>" />
+        <br>
+        <input type="text" name="dateOfBirth" placeholder="Date Of Birth" value="<%= user.dateOfBirth %>" />
+        <br>
+        <input type="text" name="profilePicture" placeholder="Profile Picture" value="<%= user.profilePicture %>" />
+        <br>
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>
