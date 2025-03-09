@@ -4,10 +4,16 @@ export const authenticated = (req, res, next) => {
     try {
         // const { token } = req.body;
         // const token = req.cookies.token;
-        const token = req.session.token;
+        const token = req?.session?.token;
 
-        verifyAuthToken(token);
-        return next();
+        if (token) {
+            verifyAuthToken(token);
+
+            return next();
+        } else {
+            // User is not logged in, we are redirecting
+            res.redirect('/auth/signin');
+        }
     } catch (error) {
         // next(new NotAuthenticatedError());
         next(error);  
