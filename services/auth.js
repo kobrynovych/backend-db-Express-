@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import { AuthError } from '../errors/AuthError.js';
-import { createNewUser, getUserByEmail } from '../models/users.js';
+import { createNewUser, getUserAndPasswordByEmail, getUserByEmail } from '../models/users.js';
 // import { WEB_TOKEN_SECRET_KEY } from '../config/constants.js';
 const WEB_TOKEN_SECRET_KEY = 'k41Mvn3hsi45';
 const EXPIRES_IN = '1d';
@@ -49,13 +49,15 @@ export const registerNewUser = async ({ firstName, lastName, email, password, ro
 
 export const authenticateUser = async (email, password) => {
     try {
-        const user = await getUserByEmail(email);
+        // const user = await getUserByEmail(email);
+        const user = await getUserAndPasswordByEmail(email);
     
         if (!user) {
             throw new AuthError();
         }
     
-        const isPasswordCorrect = compareHashWithPassword(password, user.passwordHash);
+        const isPasswordCorrect = compareHashWithPassword(password, user.password);
+        // const isPasswordCorrect = user.comparePassword(password);
         if (!isPasswordCorrect) {
             throw new AuthError();
         }

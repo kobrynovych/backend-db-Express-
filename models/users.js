@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -49,12 +50,17 @@ const userSchema = new mongoose.Schema({
 //     next();
 // });
 
-// // Method for password verification
-// userSchema.methods.comparePassword = async function (candidatePassword) {
-//     return bcrypt.compare(candidatePassword, this.password);
-// };
+// Method for password verification
+userSchema.methods.comparePassword = async function (candidatePassword) {   // work only with .select('+password')
+    // return bcrypt.compare(candidatePassword, this.password);
+    return bcrypt.compareSync(candidatePassword, this.password);
+};
 
 const User = mongoose.model('User', userSchema);
+
+export const getUsers = () => {
+    return User.find();
+}
 
 export const createNewUser = (newUser) => {
     return User.create(newUser);
@@ -63,3 +69,7 @@ export const createNewUser = (newUser) => {
 export const getUserByEmail = (email) => {
     return User.findOne({ email });
 }
+
+export const getUserAndPasswordByEmail = (email) => {
+    return User.findOne({ email }).select('+password');
+};

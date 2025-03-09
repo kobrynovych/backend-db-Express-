@@ -9,5 +9,40 @@
     <h1>users</h1>
     
     <%- include('components/navbar') %>
+
+    <br>
+
+    <hr>
+
+    <% if (users && users.length > 0) { %>
+        <ul>
+            <% users.forEach((user, index) => { %>
+                <li>
+                    <%= index + 1 %>.
+                    <br>
+                    _id: <%= user._id %>.
+                    <br>
+                    Full Name: <%= user.firstName + ' ' + user.lastName %> 
+                    <br>
+                    Email: <%= user.email %>
+                    <br>
+                    Password: <%= user.password %>
+                    <br>
+                    Role: <%= user.role %>
+                    <br>
+                    Date Of Birth: <%= user.dateOfBirth %>
+                    <br>
+                    Profile Picture: <%= user.profilePicture %>
+                    <br>
+                    <a href="/users/<%= user._id %>">Edit</a>
+                    <br>
+                    <form action="/users/<%= user._id %>?_method=DELETE" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <hr>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
 </body>
 </html>
