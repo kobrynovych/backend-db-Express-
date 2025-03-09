@@ -3,6 +3,10 @@
         <p>user logged in with role: <%= userRole %></p> 
     <% } %>
 
+    <% if (userRoleGlobal) { %>
+        <p>user logged in with role global: <%= userRoleGlobal %></p> 
+    <% } %>
+
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/auth/signin">Sign In</a></li>

@@ -16,6 +16,7 @@ import { loggerWinston } from './middlewares/loggerWinston.js';
 import { loggerPino } from './middlewares/loggerPino.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { errorNotification } from './middlewares/errorNotification.js';
+import { sessionHandler } from './middlewares/sessionHandler.js';
 import './database.js';
 
 
@@ -74,6 +75,8 @@ app.use('/media', express.static('public'));
 //     console.log(req.method);
 //     next();
 // });
+
+app.use(sessionHandler);
 
 app.use("/", router);
 
