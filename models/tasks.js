@@ -2,7 +2,12 @@ import mongoose from 'mongoose'
 
 const taskSchema = new mongoose.Schema({
     title: String,
-    completed: Boolean
+    completed: Boolean,
+    author: { // Add the author field
+        type: mongoose.Schema.Types.ObjectId, // ObjectId type
+        ref: 'User', // Reference to the User model
+        required: true, // Author required
+    },
 }, { timestamps: true });
 
 const Task = mongoose.model('Task', taskSchema);
@@ -33,11 +38,16 @@ const Task = mongoose.model('Task', taskSchema);
 // deleteSchema();
 
 export const getTasks = () => {
-    return Task.find();
+    // return Task.find();
+    return Task.find().populate('author', 'firstName lastName'); // We are pulling up user data.
 };
 
-export const addTask = (title, completed) => {
-    const newTask = new Task({ title, completed: completed || false });
+export const getUserTasks = (userId) => {
+    return Task.find({ author: userId }).populate('author', 'firstName lastName'); // We are pulling up user data.
+};
+
+export const addTask = (title, completed, author) => {
+    const newTask = new Task({ title, completed: completed || false, author });
     return newTask.save();
 };
 

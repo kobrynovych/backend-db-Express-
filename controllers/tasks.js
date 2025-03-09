@@ -1,5 +1,6 @@
-import { getTasks, addTask, getOneTask, editTask, removeTask } from "../models/tasks.js";
+import { getTasks, addTask, getOneTask, editTask, removeTask, getUserTasks } from "../models/tasks.js";
 import { CustomError } from "../errors/CustomError.js";
+import { verifyAuthToken } from "../services/auth.js";
 
 export const getAllTasks = async (req, res, next) => {
     try {
@@ -21,12 +22,45 @@ export const getAllTasks = async (req, res, next) => {
 export const createTask = async (req, res, next) => {
     try {
         const { title, completed } = req.body;
-        const task = await addTask(title, completed);
+        const token = req.session.token;
+
+        if (!token) {
+            return res.status(401).json({ message: 'Token not found, please log in' });
+        }
+
+        const decoded = verifyAuthToken(token); // Decrypting the token
+        const author = decoded._id;
+        const task = await addTask(title, completed, author);
 
         if (req.headers.accept && req.headers.accept.includes('text/html')) {        
             res.redirect('/tasks');
         } else {
             res.status(201).json(task);
+        }
+    } catch (error) {
+        next(error); 
+    }
+};
+
+export const getMyTask = async (req, res, next) => {
+    try {
+        const token = req.session.token;
+
+        if (!token) {
+            return res.status(401).json({ message: 'Token not found, please log in' });
+        }
+
+        const decoded = verifyAuthToken(token); // Decrypting the token
+        const authorId = decoded._id;
+        const tasks = await getUserTasks(authorId);
+
+        if (req.headers.accept && req.headers.accept.includes('text/html')) {        
+            res.render('tasks-me', {
+                userRole: req.session.role,
+                tasks: tasks,
+            });
+        } else {
+            res.json(tasks);
         }
     } catch (error) {
         next(error); 

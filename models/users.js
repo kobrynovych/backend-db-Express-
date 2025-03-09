@@ -71,11 +71,13 @@ export const getUserByEmail = (email) => {
 }
 
 export const getUserAndPasswordByEmail = (email) => {
-    return User.findOne({ email }).select('+password');
+    return User.findOne({ email }).select('+password'); // Extracting a user from a password
+    // return User.findById(_id).select('-password'); // We extract the user without a password
 };
 
 export const getOneUser = (_id) => {
     return User.findById(_id);
+    // return User.findById(_id).select('-password');
 };
 
 export const editUser = (itemId, body) => {
