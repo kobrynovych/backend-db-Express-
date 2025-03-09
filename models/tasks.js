@@ -7,6 +7,31 @@ const taskSchema = new mongoose.Schema({
 
 const Task = mongoose.model('Task', taskSchema);
 
+// // To follow the changes
+// const changeStream = Task.watch();
+
+// changeStream.on('change', (change) => {
+//   console.log('change Task: ', change);
+//   // Your code to handle the change
+// });
+
+// export const deleteSchema = async () => {
+//     try {
+//         // Deleting a collection
+//         await Task.collection.drop();
+//         console.log('Task collection successfully deleted');
+//     } catch (error) {
+//         if (error.code === 26) {
+//             console.log('The Task collection does not exist.');
+//         } else {
+//             console.error('Error deleting Task collection: ', error);
+//         }
+//     }
+// };
+  
+// // Call the function to delete the schema
+// deleteSchema();
+
 export const getTasks = () => {
     return Task.find();
 };
